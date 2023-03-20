@@ -1,4 +1,4 @@
-import RestaurantsDAO from "../dao/restaurantsDAO.js";
+import ReviewDAO from "../dao/reviewDAO.js";
 
 export default class reviewCtrl {
     static async apiAddReview(req, res, next){
@@ -11,7 +11,7 @@ export default class reviewCtrl {
                 _id : req.body.user_id
             }
 
-            const response = await RestaurantsDAO.addReview(restaurantId, reviewTxt, userInfo, date);
+            const response = await ReviewDAO.addReview(restaurantId, reviewTxt, userInfo, date);
             res.JSON({status : "sucesss"});
         } catch (e){
             res.status(500).JSON({error : e.message})
@@ -25,7 +25,7 @@ export default class reviewCtrl {
             const userId = req.body.user_id;
             const date = new Date();
 
-            const response = await RestaurantsDAO.updateReview(reviewId, reviewTxt, userId, date);
+            const response = await ReviewDAO.updateReview(reviewId, reviewTxt, userId, date);
 
             var { error } = response;
             if(error)
@@ -43,7 +43,7 @@ export default class reviewCtrl {
             const reviewId = req.query.reviewId;
             const userId = req.body.user_id;
 
-            const response = await RestaurantsDAO.deleteReview(reviewId, userId);
+            const response = await ReviewDAO.deleteReview(reviewId, userId);
             res.JSON({status : "sucesss"});
         } catch (e){
             res.status(500).JSON({error : e.message})
