@@ -12,9 +12,12 @@ export default class reviewCtrl {
             }
 
             const response = await ReviewDAO.addReview(restaurantId, reviewTxt, userInfo, date);
-            res.JSON({status : "sucesss"});
+            var { error } = response;
+            if(error)
+                res.status(400).json({error});
+            res.json({status : "sucesss"});
         } catch (e){
-            res.status(500).JSON({error : e.message})
+            res.status(500).json({error : e.message})
         }
     }
 
@@ -29,12 +32,13 @@ export default class reviewCtrl {
 
             var { error } = response;
             if(error)
-                res.status(400).JSON({error});
+                res.status(400).json({error});
             if(response.modifiedCount === 0){
                 throw new Error("unable to update review, user may not the original poster");
             }
+            res.json({status : "sucesss"});
         } catch (e){
-            res.status(500).JSON({error : e.message})
+            res.status(500).json({error : e.message})
         }
     }
 
@@ -44,9 +48,12 @@ export default class reviewCtrl {
             const userId = req.body.user_id;
 
             const response = await ReviewDAO.deleteReview(reviewId, userId);
-            res.JSON({status : "sucesss"});
+            var { error } = response;
+            if(error)
+                res.status(400).json({error});
+            res.json({status : "sucesss"});
         } catch (e){
-            res.status(500).JSON({error : e.message})
+            res.status(500).json({error : e.message})
         }
     }
 
